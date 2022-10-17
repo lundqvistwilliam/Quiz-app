@@ -36,14 +36,15 @@ let questionsArr = [
         questionAlternative3: "3",
         questionAlternative4: "2",
         correctAnswer: "2",
+       // type: "multipleChoice"
     },
     {
-        question: "Sweden capital?",
-        questionAlternative1: "Oslo",
-        questionAlternative2: "Copenhagen",
-        questionAlternative3: "Stockholm",
-        questionAlternative4: "Helsinki",
-        correctAnswer: "Stockholm"
+        question: "What is the name of Australia's capital city?",
+        questionAlternative1: "Brisbane",
+        questionAlternative2: "Sydney",
+        questionAlternative3: "Perth",
+        questionAlternative4: "Canberra",
+        correctAnswer: "Canberra"
     },
     {
         question: "What is the smallest country in the world by area?",
@@ -84,7 +85,32 @@ let questionsArr = [
         questionAlternative3: "2007",
         questionAlternative4: "2009",
         correctAnswer: "2008",
+    },
+    {
+        question: "Which planet is closest to the sun?",
+        questionAlternative1: "Mercury",
+        questionAlternative2: "Venus",
+        questionAlternative3: "Mars",
+        questionAlternative4: "Jupiter",
+        correctAnswer: "Mercury",
+    },
+    {
+        question: "Who was the first Roman emperor?",
+        questionAlternative1: "Tiberius",
+        questionAlternative2: "Nero",
+        questionAlternative3: "Augustus",
+        questionAlternative4: "Caligula",
+        correctAnswer: "Augustus",
+    },
+    {
+        question: "How many elements are there on the periodic table?",
+        questionAlternative1: "118",
+        questionAlternative2: "181",
+        questionAlternative3: "108",
+        questionAlternative4: "188",
+        correctAnswer: "118",
     }
+
 ]
 
 let currentQuestion = 0;
@@ -101,8 +127,9 @@ let alt2Btn = document.querySelector("#alt2Btn");
 let alt3Btn = document.querySelector("#alt3Btn");
 let alt4Btn = document.querySelector("#alt4Btn");
 let submitBtn = document.querySelector("#submitButton");
-let buttons = document.querySelector("#buttonDiv")
+let buttons = document.querySelector("#buttonDiv");
 
+let scoreText = document.querySelector("#scoreText");
 let screenQuestionText = document.querySelector("#screenQuestionText");
 
 
@@ -116,33 +143,29 @@ startBtn.addEventListener("click", () =>{
 })
 
 submitBtn.addEventListener("click", ()=> {
-    //checkCorrectAnswer();
+    scoreText.style.display="block";
+    scoreText.style.display="center";
+    removeQuestions();
+    printScore();
 })
 
 
 function setup() {
-    // add all eventlistener
-    //alt1Btn.addEventListener
-
-   // alt2Btn.addEventListener("click
-
-
    alt1Btn.addEventListener("click",()=>{
-    checkCorrectAnswer2(alt1Btn.innerText, questionsArr[currentQuestion].correctAnswer)
+    checkCorrectAnswer(alt1Btn.innerText, questionsArr[currentQuestion].correctAnswer)
     })
 
+   alt2Btn.addEventListener("click",()=>{
+        checkCorrectAnswer(alt2Btn.innerText, questionsArr[currentQuestion].correctAnswer)
+    })
 
-    alt2Btn.addEventListener("click",()=>{
-        checkCorrectAnswer2(alt2Btn.innerText, questionsArr[currentQuestion].correctAnswer)
-        })
+   alt3Btn.addEventListener("click",()=>{
+        checkCorrectAnswer(alt3Btn.innerText, questionsArr[currentQuestion].correctAnswer)
+    })
 
-        alt3Btn.addEventListener("click",()=>{
-            checkCorrectAnswer2(alt3Btn.innerText, questionsArr[currentQuestion].correctAnswer)
-            })
-
-            alt4Btn.addEventListener("click",()=>{
-                checkCorrectAnswer2(alt4Btn.innerText, questionsArr[currentQuestion].correctAnswer)
-                })
+   alt4Btn.addEventListener("click",()=>{
+        checkCorrectAnswer(alt4Btn.innerText, questionsArr[currentQuestion].correctAnswer)
+    })
 }
 
 function loadQuiz(){
@@ -151,94 +174,52 @@ function loadQuiz(){
     alt2Btn.innerText = questionsArr[currentQuestion].questionAlternative2;
     alt3Btn.innerText = questionsArr[currentQuestion].questionAlternative3;
     alt4Btn.innerText = questionsArr[currentQuestion].questionAlternative4;
-    //checkCorrectAnswer();
 
-    console.log("score" + score)
-    console.log("question" + currentQuestion)
     screenQuestionText.innerText = `Question: ${currentQuestion+1}/${questionsArr.length}`
 }
 
-function checkCorrectAnswer2(text, correctAnswer) {
+function checkCorrectAnswer(text, correctAnswer) {
 
-    currentQuestion++
+    if(currentQuestion !== questionsArr.length-1){
+        currentQuestion++
+    }
     
-    console.log("button.innerText", text)
-    console.log("correctAnswer", correctAnswer)
 
-    if (text == correctAnswer) {
+    if (text === correctAnswer) {
         console.log("rätt1")
         score++
     } else {
         console.log("fel")
     }
-    // button == correctAnswer
-    // if rätt:
    
 
-    // fel: 
-    
+    if(currentQuestion === questionsArr.length){
+        console.log("completed")
+    }
     
     loadQuiz();
 }
 
-function checkCorrectAnswer(){
-    alt1Btn.addEventListener("click",()=>{
 
-        checkCorrectAnswer2(alt1Btn.innerText, questionsArr[currentQuestion].correctAnswer)
 
-        /*
-        if(alt1Btn.innerText === questionsArr[currentQuestion].correctAnswer){
-            console.log("rätt1")
-            currentQuestion++
-            score++
-            loadQuiz();
-        } else {
-            console.log("fel")
-            currentQuestion++
-            loadQuiz();
-        } */
-})
+function printScore(){
+    if(score > questionsArr.length * 0.75){
+        scoreText.style.color= "green"
+        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\n Mycket Väl Godkänt!`
+    } else if (score > questionsArr.length * 0.5){
+        scoreText.style.color= "orange"
+        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\n Godkänt`
+    } else if(score < questionsArr.length * 0.5){
+        scoreText.style.color= "red"
+        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\nUnderkänt`
+    }
 
-    alt2Btn.addEventListener("click",()=>{
-        if(alt2Btn.innerText === questionsArr[currentQuestion].correctAnswer){
-            console.log("rätt1")
-            currentQuestion++
-            score++
-            loadQuiz();
-        } else {
-            console.log("fel")
-            currentQuestion++
-            loadQuiz();
-        }
-    })
-
-    alt3Btn.addEventListener("click",()=>{
-        if(alt3Btn.innerText === questionsArr[currentQuestion].correctAnswer){
-            console.log("rätt1")
-            currentQuestion++
-            score++
-            loadQuiz();
-        } else {
-            console.log("fel")
-            currentQuestion++
-            loadQuiz();
-        }
-})
-
-    alt4Btn.addEventListener("click",()=>{
-        if(alt4Btn.innerText === questionsArr[currentQuestion].correctAnswer){
-            console.log("rätt1")
-            currentQuestion++
-            score++
-            loadQuiz();
-        } else {
-            console.log("fel")
-            currentQuestion++
-            loadQuiz();
-        }
-    })
-    
-   
 }
 
-
+function removeQuestions(){
+    questionText.style.display="none";
+    alt1Btn.style.display="none";
+    alt2Btn.style.display="none";
+    alt3Btn.style.display="none";
+    alt4Btn.style.display="none";
+}
