@@ -24,6 +24,7 @@ body {
     box-shadow: 0 0 10px 2px;
     width: 600px;
     /*height: 250px; */
+    padding: 25px;
 }
 
 h3{

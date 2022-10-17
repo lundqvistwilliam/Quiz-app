@@ -36,7 +36,7 @@ let questionsArr = [
         questionAlternative3: "3",
         questionAlternative4: "2",
         correctAnswer: "2",
-       // type: "multipleChoice"
+        type: "multipleChoice",
     },
     {
         question: "What is the name of Australia's capital city?",
@@ -44,7 +44,8 @@ let questionsArr = [
         questionAlternative2: "Sydney",
         questionAlternative3: "Perth",
         questionAlternative4: "Canberra",
-        correctAnswer: "Canberra"
+        correctAnswer: "Canberra",
+        type: "multipleChoice",
     },
     {
         question: "What is the smallest country in the world by area?",
@@ -53,6 +54,7 @@ let questionsArr = [
         questionAlternative3: "Monaco",
         questionAlternative4: "San Marino",
         correctAnswer: "Vatican City",
+        type: "multipleChoice",
     },
     {
         question: "Who was the first US president?",
@@ -61,6 +63,7 @@ let questionsArr = [
         questionAlternative3: "Abraham Lincoln",
         questionAlternative4: "Theodore Roosevelt",
         correctAnswer: "George Washington",
+        type: "multipleChoice",
     },
     {
         question: "In what sport do you compete to win the Stanley Cup?",
@@ -69,6 +72,7 @@ let questionsArr = [
         questionAlternative3: "Basketball",
         questionAlternative4: "American football",
         correctAnswer: "Hockey",
+        type: "multipleChoice",
     },
     {
         question: "Which nation won the 2010 football World Cup?",
@@ -77,6 +81,7 @@ let questionsArr = [
         questionAlternative3: "France",
         questionAlternative4: "Spain",
         correctAnswer: "Spain",
+        type: "multipleChoice",
     },
     {
         question: "What year did Apple launch the first iPhone?",
@@ -85,6 +90,7 @@ let questionsArr = [
         questionAlternative3: "2007",
         questionAlternative4: "2009",
         correctAnswer: "2008",
+        type: "multipleChoice",
     },
     {
         question: "Which planet is closest to the sun?",
@@ -93,6 +99,7 @@ let questionsArr = [
         questionAlternative3: "Mars",
         questionAlternative4: "Jupiter",
         correctAnswer: "Mercury",
+        type: "multipleChoice",
     },
     {
         question: "Who was the first Roman emperor?",
@@ -101,6 +108,7 @@ let questionsArr = [
         questionAlternative3: "Augustus",
         questionAlternative4: "Caligula",
         correctAnswer: "Augustus",
+        type: "multipleChoice",
     },
     {
         question: "How many elements are there on the periodic table?",
@@ -109,6 +117,7 @@ let questionsArr = [
         questionAlternative3: "108",
         questionAlternative4: "188",
         correctAnswer: "118",
+        type: "multipleChoice",
     }
 
 ]
@@ -160,7 +169,7 @@ submitBtn.addEventListener("click", ()=> {
     historyArray.forEach(historyObject => {
         let li = document.createElement("li");
         let question = questionsArr[historyObject.question]
-        li.innerHTML = "Fråga " + (historyObject.question +1) + ": " + question.question +", Du svarade: " + historyObject.answer + ", Rätt svar: " + question.correctAnswer
+        li.innerHTML = "Question " + (historyObject.question +1) + ": " + question.question +", Your answer: " + historyObject.answer + ", Correct answer: " + question.correctAnswer
         historyUl.appendChild(li);
     })
 })
@@ -200,15 +209,13 @@ function checkCorrectAnswer(text, correctAnswer) {
     let question = questionsArr[currentQuestion];
 
     let historyObject = {
-    question: currentQuestion,
-    answer: text
+        question: currentQuestion,
+        answer: text
     }
     historyArray.push(historyObject)
     console.log(historyObject)
 
-    if(currentQuestion !== questionsArr.length-1){
-        currentQuestion++
-    }
+
     
     if (text === correctAnswer) {
         console.log("rätt1")
@@ -217,12 +224,14 @@ function checkCorrectAnswer(text, correctAnswer) {
         console.log("fel")
     }
    
-    if(currentQuestion+1 === questionsArr.length){
+    if(currentQuestion === questionsArr.length -1){
         console.log("completed")
         submitBtn.disabled=false;
+    } else {
+        currentQuestion++
+        loadQuiz();
     }
     
-    loadQuiz();
 }
 
 
