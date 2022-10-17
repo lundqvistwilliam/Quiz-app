@@ -117,8 +117,6 @@ let currentQuestion = 0;
 let score = 0;
 
 
-console.log(questionsArr)
-
 let startBtn = document.querySelector("#startBtn");
 
 let questionText = document.querySelector("#questionText");
@@ -129,8 +127,14 @@ let alt4Btn = document.querySelector("#alt4Btn");
 let submitBtn = document.querySelector("#submitButton");
 let buttons = document.querySelector("#buttonDiv");
 
+let historyUl = document.querySelector("#history");
+let historyArray =[];
+
 let scoreText = document.querySelector("#scoreText");
 let screenQuestionText = document.querySelector("#screenQuestionText");
+
+submitBtn.disabled =true;
+
 
 
 
@@ -139,18 +143,31 @@ startBtn.addEventListener("click", () =>{
     loadQuiz();
     buttons.style.display ="block";
     buttons.style.display = "center";
-
+    startBtn.style.display="none";
 })
 
 submitBtn.addEventListener("click", ()=> {
+
     scoreText.style.display="block";
     scoreText.style.display="center";
     removeQuestions();
     printScore();
+    console.log(history);
+
+    historyUl.innerHTML="";
+
+
+    historyArray.forEach(historyObject => {
+        let li = document.createElement("li");
+        let question = questionsArr[historyObject.question]
+        li.innerHTML = "Fråga " + (historyObject.question +1) + ": " + question.question +", Du svarade: " + historyObject.answer + ", Rätt svar: " + question.correctAnswer
+        historyUl.appendChild(li);
+    })
 })
 
 
 function setup() {
+
    alt1Btn.addEventListener("click",()=>{
     checkCorrectAnswer(alt1Btn.innerText, questionsArr[currentQuestion].correctAnswer)
     })
@@ -180,11 +197,19 @@ function loadQuiz(){
 
 function checkCorrectAnswer(text, correctAnswer) {
 
+    let question = questionsArr[currentQuestion];
+
+    let historyObject = {
+    question: currentQuestion,
+    answer: text
+    }
+    historyArray.push(historyObject)
+    console.log(historyObject)
+
     if(currentQuestion !== questionsArr.length-1){
         currentQuestion++
     }
     
-
     if (text === correctAnswer) {
         console.log("rätt1")
         score++
@@ -192,9 +217,9 @@ function checkCorrectAnswer(text, correctAnswer) {
         console.log("fel")
     }
    
-
-    if(currentQuestion === questionsArr.length){
+    if(currentQuestion+1 === questionsArr.length){
         console.log("completed")
+        submitBtn.disabled=false;
     }
     
     loadQuiz();

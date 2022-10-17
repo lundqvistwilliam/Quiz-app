@@ -23,7 +23,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px 2px;
     width: 600px;
-    height: 250px;
+    /*height: 250px; */
 }
 
 h3{
@@ -35,4 +35,6 @@ h3{
 #buttonDiv {
    text-align: center;
 }
+
+
 
