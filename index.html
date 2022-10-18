@@ -7,25 +7,57 @@
     <title>Document</title>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
 </head>
 <body>
     <h3 id="screenQuestionText"></h3>
     <button id="startBtn">Start Quiz!</button>
+    <button class="btn btn-primary" id="lightModeBtn"><span class="bi-brightness-high-fill"></span> Toggle Dark mode</button>
+    <button class="btn btn-primary" id="darkModeBtn" style="display:none" ><span class="bi-brightness-high"></span> Toggle Dark mode</button>
+
     <div id="container">
         <div class="header">
             <h3 id="questionText">Quiz App</h3>
-            <div id="buttonDiv" style="display:none">
-                <button id="alt1Btn" name="alternativesBtn">Alt 1</button>
-                <button id="alt2Btn" name="alternativesBtn">Alt 2</button>
-                <button id="alt3Btn" name="alternativesBtn">Alt 3</button>
-                <button id="alt4Btn" name="alternativesBtn">Alt 4</button>
-
-                <h2 id="scoreText" style="display:none">Test</h2>
-
-                <ul id="history"></ul>
+            <h2 id="scoreText" style="display:none">Questions History</h2>
+            <ul id="history"></ul>
+            <div id="booleanDiv" style="display:none">
+                <label for="boolean_alt1Btn" id="boolean_alt1lbl" >Alt1</label>
+                <input type="radio" name="boolean" id="boolean_alt1Btn" value="True">
+                
+                <label for="boolean_alt2Btn" id="boolean_alt2lbl" >Alt2</label>
+                <input type="radio" name="boolean" id="boolean_alt2Btn" value="False">
             </div>
+            <div id="singleChoice" style="display:none">
+                <label for="single_alt1Btn" id="single_alt1lbl"></label>
+                <input type="radio" name="singleChoice" id="single_alt1Btn">
+
+                <label for="single_alt2Btn" id="single_alt2lbl"></label>
+                <input type="radio" name="singleChoice" id="single_alt2Btn">
+
+                <label for="single_alt3Btn" id="single_alt3lbl"></label>
+                <input type="radio" name="singleChoice" id="single_alt3Btn">
+
+                <label for="single_alt4Btn" id="single_alt4lbl"></label>
+                <input type="radio" name="singleChoice" id="single_alt4Btn">
+            </div>
+            <div id="multipleChoice" style="display:none">
+                <label for="checkbox_alt1Btn" id="checkbox_alt1lbl"></label>
+                <input type="checkbox" name="multiChoice" id="checkbox_alt1Btn">
+
+                <label for="checkbox_alt2Btn" id="checkbox_alt2lbl"></label>
+                <input type="checkbox" name="multiChoice" id="checkbox_alt2Btn">
+
+                <label for="checkbox_alt3Btn" id="checkbox_alt3lbl"></label>
+                <input type="checkbox" name="multiChoice" id="checkbox_alt3Btn">
+
+                <label for="checkbox_alt4Btn" id="checkbox_alt4lbl"></label>
+                <input type="checkbox" name="multiChoice" id="checkbox_alt4Btn">
+            </div>
+            <button id="submitBtn">Submit</button>
         </div>
-        <button id="submitButton">Check your score</button>
+        <button id="resultBtn">Check your score</button>
         
     </div>
 </body>

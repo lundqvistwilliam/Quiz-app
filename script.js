@@ -30,94 +30,64 @@ färg och text för att meddela användarens resultat utefter följande kriterie
 
 let questionsArr = [
     {
-        question: "1+1 equals?",
-        questionAlternative1: "1",
-        questionAlternative2: "4",
-        questionAlternative3: "3",
-        questionAlternative4: "2",
-        correctAnswer: "2",
-        type: "multipleChoice",
+        question: "1+1 equals 2?",
+        type: "boolean",
+        alternatives: ["True", "False"],
+        correctAnswer: ["True"],
     },
     {
         question: "What is the name of Australia's capital city?",
-        questionAlternative1: "Brisbane",
-        questionAlternative2: "Sydney",
-        questionAlternative3: "Perth",
-        questionAlternative4: "Canberra",
-        correctAnswer: "Canberra",
-        type: "multipleChoice",
+        type: "singleChoice",
+        alternatives: ["Brisbane", "Sydney", "Perth", "Canberra"],
+        correctAnswer: ["Canberra"],
     },
     {
         question: "What is the smallest country in the world by area?",
-        questionAlternative1: "Vatican City",
-        questionAlternative2: "Liechtenstein",
-        questionAlternative3: "Monaco",
-        questionAlternative4: "San Marino",
-        correctAnswer: "Vatican City",
-        type: "multipleChoice",
+        type: "singleChoice",
+        alternatives: ["Vatican City", "Liechtenstein","Monaco","San Marino"],
+        correctAnswer: ["Vatican City"],
     },
     {
         question: "Who was the first US president?",
-        questionAlternative1: "Thomas Jefferson",
-        questionAlternative2: "George Washington",
-        questionAlternative3: "Abraham Lincoln",
-        questionAlternative4: "Theodore Roosevelt",
-        correctAnswer: "George Washington",
-        type: "multipleChoice",
+        type: "singleChoice",
+        alternatives: ["Thomas Jefferson","George Washington","Abraham Lincoln","Theodore Roosevelt"],
+        correctAnswer: ["George Washington"],
     },
     {
-        question: "In what sport do you compete to win the Stanley Cup?",
-        questionAlternative1: "Baseball",
-        questionAlternative2: "Hockey",
-        questionAlternative3: "Basketball",
-        questionAlternative4: "American football",
-        correctAnswer: "Hockey",
-        type: "multipleChoice",
+        question: "Arizona is the biggest state in US by area?",
+        type: "boolean",
+        alternatives: ["True", "False"],
+        correctAnswer: ["False"],
     },
     {
-        question: "Which nation won the 2010 football World Cup?",
-        questionAlternative1: "Brazil",
-        questionAlternative2: "Germany",
-        questionAlternative3: "France",
-        questionAlternative4: "Spain",
-        correctAnswer: "Spain",
-        type: "multipleChoice",
+        question: "Which nations won the 2010 & 2014 football World Cup?",
+        type: "multiChoice",
+        alternatives: ["Brazil","Germany","France","Spain"],
+        correctAnswer: ["Germany","Spain"],
     },
     {
-        question: "What year did Apple launch the first iPhone?",
-        questionAlternative1: "2006",
-        questionAlternative2: "2008",
-        questionAlternative3: "2007",
-        questionAlternative4: "2009",
-        correctAnswer: "2008",
-        type: "multipleChoice",
+        question: "Which countries have over 50 million population?",
+        type: "multiChoice",
+        alternatives: ["Italy","Thailand","Canada","Turkey"],
+        correctAnswer: ["Italy","Thailand","Turkey"],
     },
     {
-        question: "Which planet is closest to the sun?",
-        questionAlternative1: "Mercury",
-        questionAlternative2: "Venus",
-        questionAlternative3: "Mars",
-        questionAlternative4: "Jupiter",
-        correctAnswer: "Mercury",
-        type: "multipleChoice",
+        question: "Which planets are next to Earth?",
+        type: "multiChoice",
+        alternatives: ["Mercury","Venus","Mars","Jupiter"],
+        correctAnswer: ["Venus","Mars"],
     },
     {
-        question: "Who was the first Roman emperor?",
-        questionAlternative1: "Tiberius",
-        questionAlternative2: "Nero",
-        questionAlternative3: "Augustus",
-        questionAlternative4: "Caligula",
-        correctAnswer: "Augustus",
-        type: "multipleChoice",
+        question: "Is the Black box in an airplane actually black?",
+        type: "boolean",
+        alternatives: ["True", "False"],
+        correctAnswer: ["False"],
     },
     {
         question: "How many elements are there on the periodic table?",
-        questionAlternative1: "118",
-        questionAlternative2: "181",
-        questionAlternative3: "108",
-        questionAlternative4: "188",
-        correctAnswer: "118",
-        type: "multipleChoice",
+        type:"singleChoice",
+        alternatives:["118","181","108","188"],
+        correctAnswer: ["118"],
     }
 
 ]
@@ -125,16 +95,21 @@ let questionsArr = [
 let currentQuestion = 0;
 let score = 0;
 
-
-let startBtn = document.querySelector("#startBtn");
-
-let questionText = document.querySelector("#questionText");
+/*
 let alt1Btn = document.querySelector("#alt1Btn");
 let alt2Btn = document.querySelector("#alt2Btn");
 let alt3Btn = document.querySelector("#alt3Btn");
 let alt4Btn = document.querySelector("#alt4Btn");
-let submitBtn = document.querySelector("#submitButton");
+*/
+
+let startBtn = document.querySelector("#startBtn");
+
+let questionText = document.querySelector("#questionText");
+
+let resultBtn = document.querySelector("#resultBtn");
 let buttons = document.querySelector("#buttonDiv");
+let booleanBtns = document.querySelector("#booleanDiv");
+let submitBtn = document.querySelector("#submitBtn");
 
 let historyUl = document.querySelector("#history");
 let historyArray =[];
@@ -142,7 +117,45 @@ let historyArray =[];
 let scoreText = document.querySelector("#scoreText");
 let screenQuestionText = document.querySelector("#screenQuestionText");
 
-submitBtn.disabled =true;
+let boolean_alt1Btn = document.querySelector("#boolean_alt1Btn");
+let boolean_alt2Btn = document.querySelector("#boolean_alt2Btn");
+let boolean_alt1lbl= document.querySelector("#boolean_alt1lbl");
+let boolean_alt2lbl= document.querySelector("#boolean_alt2lbl");
+
+let booleanDiv = document.querySelector("#booleanDiv");
+let singleChoice = document.querySelector("#singleChoice");
+let multipleChoice = document.querySelector("#multipleChoice");
+
+let single_alt1Btn = document.querySelector("#single_alt1Btn");
+let single_alt2Btn = document.querySelector("#single_alt2Btn");
+let single_alt3Btn = document.querySelector("#single_alt3Btn");
+let single_alt4Btn = document.querySelector("#single_alt4Btn");
+let single_alt1lbl= document.querySelector("#single_alt1lbl");
+let single_alt2lbl= document.querySelector("#single_alt2lbl");
+let single_alt3lbl= document.querySelector("#single_alt3lbl");
+let single_alt4lbl= document.querySelector("#single_alt4lbl");
+
+
+let checkbox_alt1Btn = document.querySelector("#checkbox_alt1Btn");
+let checkbox_alt2Btn = document.querySelector("#checkbox_alt2Btn");
+let checkbox_alt3Btn = document.querySelector("#checkbox_alt3Btn");
+let checkbox_alt4Btn = document.querySelector("#checkbox_alt4Btn");
+let checkbox_alt1lbl= document.querySelector("#checkbox_alt1lbl");
+let checkbox_alt2lbl= document.querySelector("#checkbox_alt2lbl");
+let checkbox_alt3lbl= document.querySelector("#checkbox_alt3lbl");
+let checkbox_alt4lbl= document.querySelector("#checkbox_alt4lbl");
+
+let lightModeBtn = document.querySelector("#lightModeBtn");
+let darkModeBtn = document.querySelector("#darkModeBtn");
+
+lightModeBtn.addEventListener("click", ()=>{
+    
+})
+
+
+
+
+resultBtn.style.display = "none";
 
 
 
@@ -150,12 +163,73 @@ submitBtn.disabled =true;
 startBtn.addEventListener("click", () =>{
     setup()
     loadQuiz();
-    buttons.style.display ="block";
-    buttons.style.display = "center";
+    booleanBtns.style.display="block"
+    booleanBtns.style.display="center"
     startBtn.style.display="none";
 })
 
-submitBtn.addEventListener("click", ()=> {
+submitBtn.addEventListener("click",()=>{
+
+   let text
+   if(!boolean_alt1Btn.checked && !boolean_alt2Btn.checked){
+    alert("You must click on an answer.")
+   }
+
+   let question =questionsArr[currentQuestion];
+
+   switch(question.type){
+    case "boolean":
+        if(boolean_alt1Btn.checked){
+            text = boolean_alt1Btn.value
+           } else if(boolean_alt2Btn.checked) {
+            text = boolean_alt2Btn.value
+           } 
+           break;
+
+    case "singleChoice":
+        if(single_alt1Btn.checked){
+            text= single_alt1lbl.innerText
+           } else if(single_alt2Btn.checked){
+            text=single_alt2lbl.innerText
+           } else if(single_alt3Btn.checked){
+            text=single_alt3lbl.innerText
+           } else if(single_alt4Btn.checked) {
+            text=single_alt4lbl.innerText
+           }
+           break;
+    case "multiChoice":
+        text = []
+        if(checkbox_alt1Btn.checked){
+            text.push(checkbox_alt1lbl.innerText)
+        }
+        if(checkbox_alt2Btn.checked){
+            text.push(checkbox_alt2lbl.innerText)
+        }
+        if(checkbox_alt3Btn.checked){
+            text.push(checkbox_alt3lbl.innerText)
+        }
+        if(checkbox_alt4Btn.checked){
+            text.push(checkbox_alt4lbl.innerText)
+        }
+        break;
+
+    default: 
+        break;
+   }
+
+   
+
+   
+
+   
+
+   let correctAnswers = questionsArr[currentQuestion].correctAnswer;
+   checkCorrectAnswer(text,correctAnswers)
+   console.log("Text: " + text, "correctAnswers: " + correctAnswers)
+   console.log(score)
+})
+
+resultBtn.addEventListener("click", ()=> {
 
     scoreText.style.display="block";
     scoreText.style.display="center";
@@ -177,6 +251,7 @@ submitBtn.addEventListener("click", ()=> {
 
 function setup() {
 
+    /*
    alt1Btn.addEventListener("click",()=>{
     checkCorrectAnswer(alt1Btn.innerText, questionsArr[currentQuestion].correctAnswer)
     })
@@ -192,19 +267,63 @@ function setup() {
    alt4Btn.addEventListener("click",()=>{
         checkCorrectAnswer(alt4Btn.innerText, questionsArr[currentQuestion].correctAnswer)
     })
+    */
+
 }
 
+
+
 function loadQuiz(){
-    questionText.innerText = questionsArr[currentQuestion].question;
-    alt1Btn.innerText = questionsArr[currentQuestion].questionAlternative1;
-    alt2Btn.innerText = questionsArr[currentQuestion].questionAlternative2;
-    alt3Btn.innerText = questionsArr[currentQuestion].questionAlternative3;
-    alt4Btn.innerText = questionsArr[currentQuestion].questionAlternative4;
+    let question = questionsArr[currentQuestion]
+    questionText.innerText= question.question;
+    
+   switch(question.type){
+    case "boolean":
+        boolean_alt1lbl.innerHTML = questionsArr[currentQuestion].alternatives[0];
+        boolean_alt2lbl.innerHTML = questionsArr[currentQuestion].alternatives[1];
+
+        booleanDiv.style.display="block"
+        booleanDiv.style.display="center"
+        singleChoice.style.display="none";
+        multipleChoice.style.display="none";
+
+        break;
+
+    case "singleChoice":
+        single_alt1lbl.innerHTML = questionsArr[currentQuestion].alternatives[0];
+        single_alt2lbl.innerHTML = questionsArr[currentQuestion].alternatives[1];
+        single_alt3lbl.innerHTML = questionsArr[currentQuestion].alternatives[2];
+        single_alt4lbl.innerHTML = questionsArr[currentQuestion].alternatives[3];
+
+      
+        singleChoice.style.display="block";
+        singleChoice.style.display="center";
+        booleanDiv.style.display="none";
+        multipleChoice.style.display="none"
+
+        break;
+
+    case "multiChoice":
+        checkbox_alt1lbl.innerHTML = questionsArr[currentQuestion].alternatives[0];
+        checkbox_alt2lbl.innerHTML = questionsArr[currentQuestion].alternatives[1];
+        checkbox_alt3lbl.innerHTML = questionsArr[currentQuestion].alternatives[2];
+        checkbox_alt4lbl.innerHTML = questionsArr[currentQuestion].alternatives[3];
+
+        multipleChoice.style.display="block";
+        multipleChoice.style.display="center";
+        singleChoice.style.display="none"
+        booleanDiv.style.display="none";
+
+        break;
+    default:
+        console.log("Invalid question type: " + question.type)
+        break;
+   }
 
     screenQuestionText.innerText = `Question: ${currentQuestion+1}/${questionsArr.length}`
 }
 
-function checkCorrectAnswer(text, correctAnswer) {
+function checkCorrectAnswer(text, correctAnswers) {
 
     let question = questionsArr[currentQuestion];
 
@@ -214,19 +333,36 @@ function checkCorrectAnswer(text, correctAnswer) {
     }
     historyArray.push(historyObject)
     console.log(historyObject)
-
-
     
-    if (text === correctAnswer) {
-        console.log("rätt1")
-        score++
+    console.log("text", text)
+    console.log("correctA", correctAnswers)
+
+    if(question.type === "multiChoice"){
+        var multiChoiceScore = 0
+        text.forEach(answer => {
+            if(correctAnswers.includes(answer)){
+                multiChoiceScore++
+            } else {
+                multiChoiceScore--
+            }
+        })
+        multiChoiceScore = Math.max(multiChoiceScore,0)
+
+        console.log(multiChoiceScore + " av " + correctAnswers.length + " rätt")
+        score += multiChoiceScore
     } else {
-        console.log("fel")
+        if (correctAnswers.includes(text)) {
+            console.log("rätt1")
+            score++
+        } else {
+            console.log("fel1")
+        }
     }
    
     if(currentQuestion === questionsArr.length -1){
         console.log("completed")
-        submitBtn.disabled=false;
+        resultBtn.disabled=false;
+        resultBtn.style.display="block";
     } else {
         currentQuestion++
         loadQuiz();
@@ -252,8 +388,6 @@ function printScore(){
 
 function removeQuestions(){
     questionText.style.display="none";
-    alt1Btn.style.display="none";
-    alt2Btn.style.display="none";
-    alt3Btn.style.display="none";
-    alt4Btn.style.display="none";
+    singleChoice.style.display="none"
+    
 }
