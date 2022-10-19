@@ -119,8 +119,10 @@ let screenQuestionText = document.querySelector("#screenQuestionText");
 
 let boolean_alt1Btn = document.querySelector("#boolean_alt1Btn");
 let boolean_alt2Btn = document.querySelector("#boolean_alt2Btn");
+
 let boolean_alt1lbl= document.querySelector("#boolean_alt1lbl");
 let boolean_alt2lbl= document.querySelector("#boolean_alt2lbl");
+
 
 let booleanDiv = document.querySelector("#booleanDiv");
 let singleChoice = document.querySelector("#singleChoice");
@@ -148,6 +150,8 @@ let checkbox_alt4lbl= document.querySelector("#checkbox_alt4lbl");
 let lightModeBtn = document.querySelector("#lightModeBtn");
 let darkModeBtn = document.querySelector("#darkModeBtn");
 
+
+
 lightModeBtn.addEventListener("click", ()=>{
     
 })
@@ -155,8 +159,9 @@ lightModeBtn.addEventListener("click", ()=>{
 
 
 
-resultBtn.style.display = "none";
 
+resultBtn.style.display = "none";
+submitBtn.style.display="none"
 
 
 
@@ -166,25 +171,20 @@ startBtn.addEventListener("click", () =>{
     booleanBtns.style.display="block"
     booleanBtns.style.display="center"
     startBtn.style.display="none";
+    submitBtn.style.display="block"
+
 })
 
 submitBtn.addEventListener("click",()=>{
 
    let text
-   if(!boolean_alt1Btn.checked && !boolean_alt2Btn.checked){
-    alert("You must click on an answer.")
-   }
 
    let question =questionsArr[currentQuestion];
 
    switch(question.type){
     case "boolean":
-        if(boolean_alt1Btn.checked){
-            text = boolean_alt1Btn.value
-           } else if(boolean_alt2Btn.checked) {
-            text = boolean_alt2Btn.value
-           } 
-           break;
+        text = this.getBooleanAnswer();
+        break;
 
     case "singleChoice":
         if(single_alt1Btn.checked){
@@ -217,14 +217,9 @@ submitBtn.addEventListener("click",()=>{
         break;
    }
 
-   
-
-   
-
-   
-
    let correctAnswers = questionsArr[currentQuestion].correctAnswer;
    checkCorrectAnswer(text,correctAnswers)
+   
    console.log("Text: " + text, "correctAnswers: " + correctAnswers)
    console.log(score)
 })
@@ -250,37 +245,31 @@ resultBtn.addEventListener("click", ()=> {
 
 
 function setup() {
-
-    /*
-   alt1Btn.addEventListener("click",()=>{
-    checkCorrectAnswer(alt1Btn.innerText, questionsArr[currentQuestion].correctAnswer)
+   let allButtons = document.querySelectorAll("#boolean_alt1Btn, #boolean_alt2Btn, #single_alt1Btn, #single_alt2Btn,#single_alt3Btn,#single_alt4Btn,#checkbox_alt1Btn,#checkbox_alt2Btn,#checkbox_alt3Btn,#checkbox_alt4Btn")
+   allButtons.forEach(button => {
+    button.addEventListener("click", () =>{
+        submitBtn.disabled = false;
     })
-
-   alt2Btn.addEventListener("click",()=>{
-        checkCorrectAnswer(alt2Btn.innerText, questionsArr[currentQuestion].correctAnswer)
-    })
-
-   alt3Btn.addEventListener("click",()=>{
-        checkCorrectAnswer(alt3Btn.innerText, questionsArr[currentQuestion].correctAnswer)
-    })
-
-   alt4Btn.addEventListener("click",()=>{
-        checkCorrectAnswer(alt4Btn.innerText, questionsArr[currentQuestion].correctAnswer)
-    })
-    */
-
+   })
 }
 
 
 
 function loadQuiz(){
+
+    uncheckAll();
     let question = questionsArr[currentQuestion]
     questionText.innerText= question.question;
+
+    submitBtn.disabled=true;
+
     
    switch(question.type){
     case "boolean":
         boolean_alt1lbl.innerHTML = questionsArr[currentQuestion].alternatives[0];
         boolean_alt2lbl.innerHTML = questionsArr[currentQuestion].alternatives[1];
+        boolean_alt1Btn.checked = false;
+        boolean_alt2Btn.checked = false;
 
         booleanDiv.style.display="block"
         booleanDiv.style.display="center"
@@ -294,6 +283,12 @@ function loadQuiz(){
         single_alt2lbl.innerHTML = questionsArr[currentQuestion].alternatives[1];
         single_alt3lbl.innerHTML = questionsArr[currentQuestion].alternatives[2];
         single_alt4lbl.innerHTML = questionsArr[currentQuestion].alternatives[3];
+
+        single_alt1Btn.checked = false;
+        single_alt2Btn.checked = false;
+        single_alt3Btn.checked = false;
+        single_alt4Btn.checked = false;
+
 
       
         singleChoice.style.display="block";
@@ -309,6 +304,12 @@ function loadQuiz(){
         checkbox_alt3lbl.innerHTML = questionsArr[currentQuestion].alternatives[2];
         checkbox_alt4lbl.innerHTML = questionsArr[currentQuestion].alternatives[3];
 
+        checkbox_alt1Btn.checked = false;
+        checkbox_alt2Btn.checked = false;
+        checkbox_alt3Btn.checked = false;
+        checkbox_alt4Btn.checked = false;
+
+
         multipleChoice.style.display="block";
         multipleChoice.style.display="center";
         singleChoice.style.display="none"
@@ -319,7 +320,6 @@ function loadQuiz(){
         console.log("Invalid question type: " + question.type)
         break;
    }
-
     screenQuestionText.innerText = `Question: ${currentQuestion+1}/${questionsArr.length}`
 }
 
@@ -363,6 +363,7 @@ function checkCorrectAnswer(text, correctAnswers) {
         console.log("completed")
         resultBtn.disabled=false;
         resultBtn.style.display="block";
+        submitBtn.style.display="none";
     } else {
         currentQuestion++
         loadQuiz();
@@ -370,20 +371,40 @@ function checkCorrectAnswer(text, correctAnswers) {
     
 }
 
+function getBooleanAnswer(){
+    let trueButton = document.querySelector("#boolean_alt1Btn")
+    let falseButton = document.querySelector("#boolean_alt2Btn")
+
+    if(trueButton.checked){
+        return trueButton.value
+       } else if(falseButton.checked) {
+        return falseButton.value
+       } 
+
+}
 
 
 function printScore(){
     if(score > questionsArr.length * 0.75){
         scoreText.style.color= "green"
-        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\n Mycket Väl Godkänt!`
+        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length+4}\n Mycket Väl Godkänt!`
     } else if (score > questionsArr.length * 0.5){
         scoreText.style.color= "orange"
-        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\n Godkänt`
+        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length+4}\n Godkänt`
     } else if(score < questionsArr.length * 0.5){
         scoreText.style.color= "red"
-        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\nUnderkänt`
+        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length+4}\nUnderkänt`
     }
 
+}
+
+
+
+function uncheckAll(){
+    let allButtons = document.querySelectorAll("#boolean_alt1Btn, #boolean_alt2Btn, #single_alt1Btn, #single_alt2Btn,#single_alt3Btn,#single_alt4Btn,#checkbox_alt1Btn,#checkbox_alt2Btn,#checkbox_alt3Btn,#checkbox_alt4Btn")
+    allButtons.forEach(button => {
+        button.checked = false;
+    })
 }
 
 function removeQuestions(){
