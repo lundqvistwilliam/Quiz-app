@@ -147,18 +147,21 @@ let checkbox_alt2lbl= document.querySelector("#checkbox_alt2lbl");
 let checkbox_alt3lbl= document.querySelector("#checkbox_alt3lbl");
 let checkbox_alt4lbl= document.querySelector("#checkbox_alt4lbl");
 
-let lightModeBtn = document.querySelector("#lightModeBtn");
-let darkModeBtn = document.querySelector("#darkModeBtn");
+let toggleMode = document.querySelector("#toggleMode")
+let toggleModelbl = document.querySelector("#toggleModelbl")
 
 
+let body = document.querySelector("body");
+let header = document.querySelector(".header");
 
-lightModeBtn.addEventListener("click", ()=>{
-    
+toggleMode.addEventListener("click", () =>{
+    if(toggleMode.checked){
+       darkModeToggle();
+    } else {
+        lightModeToggle();
+    }
+
 })
-
-
-
-
 
 resultBtn.style.display = "none";
 submitBtn.style.display="none"
@@ -219,7 +222,7 @@ submitBtn.addEventListener("click",()=>{
 
    let correctAnswers = questionsArr[currentQuestion].correctAnswer;
    checkCorrectAnswer(text,correctAnswers)
-   
+
    console.log("Text: " + text, "correctAnswers: " + correctAnswers)
    console.log(score)
 })
@@ -411,4 +414,22 @@ function removeQuestions(){
     questionText.style.display="none";
     singleChoice.style.display="none"
     
+}
+
+function darkModeToggle(){
+    body.style.background="black";
+    header.style.background="grey";  
+    startBtn.style.color="black";
+    toggleModelbl.style.background="grey";
+    startBtn.style.background="grey"
+    screenQuestionText.style.color="grey"
+}
+
+function lightModeToggle(){
+    body.style.background="white";
+    header.style.background="white";
+    toggleModelbl.style.background="white";
+    startBtn.style.background="white";
+    screenQuestionText.style.color="black"
+
 }
