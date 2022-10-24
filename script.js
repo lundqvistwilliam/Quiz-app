@@ -1,32 +1,3 @@
-/*
-Du har fått i uppgift att skapa en quiz-applikation åt Ankademin. 
-Användare ska kunna svara på frågor och få feedback på huruvida 
-hen besvarat dessa rätt eller fel. Applikationen ska fungera utan 
-några större buggar. Du väljer själv vilka frågor som quizet ska bestå utav.
-
-Du ska även ha ditt projekt på Github och pusha upp kod 
-kontinuerligt under projektets gång.
-
-
-Quizet ska innehålla 10 frågor. Frågorna ska bestå utav 
-sant/falskt påståenden med två möjliga svarsalternativ: Sant eller Falskt.
-
-Användaren ska utöver att besvara frågor för quizet, 
-även kunna byta utseende på sidan mellan dark mode 
-(dvs mörk bakgrundsfärg med ljus text ) och light mode 
-(ljus bakgrundsfärg med mörk text).
-
-Användaren ska kunna besvara samtliga frågor och sedan 
-klicka på en knapp för att se sitt resultat.
-
-Skriv ut antal rätt som användaren fått. Använd även 
-färg och text för att meddela användarens resultat utefter följande kriterier: 
-
-< 50% - Underkänt (röd)
-50%-75% - Godkänt (gul/orange)
-> 75% - Mycket väl godkänt (grönt)
-*/
-
 
 let questionsArr = [
     {
@@ -95,12 +66,6 @@ let questionsArr = [
 let currentQuestion = 0;
 let score = 0;
 
-/*
-let alt1Btn = document.querySelector("#alt1Btn");
-let alt2Btn = document.querySelector("#alt2Btn");
-let alt3Btn = document.querySelector("#alt3Btn");
-let alt4Btn = document.querySelector("#alt4Btn");
-*/
 
 let startBtn = document.querySelector("#startBtn");
 
@@ -339,31 +304,29 @@ function checkCorrectAnswer(text, correctAnswers) {
     
     console.log("text", text)
     console.log("correctA", correctAnswers)
+    console.log("score" + score)
+   
 
+    
     if(question.type === "multiChoice"){
         var multiChoiceScore = 0
         text.forEach(answer => {
             if(correctAnswers.includes(answer)){
-                multiChoiceScore++
+                multiChoiceScore = 1
             } else {
-                multiChoiceScore--
+                multiChoiceScore = 0;
             }
         })
         multiChoiceScore = Math.max(multiChoiceScore,0)
-
-        console.log(multiChoiceScore + " av " + correctAnswers.length + " rätt")
         score += multiChoiceScore
     } else {
         if (correctAnswers.includes(text)) {
-            console.log("rätt1")
             score++
-        } else {
-            console.log("fel1")
         }
     }
+    
    
     if(currentQuestion === questionsArr.length -1){
-        console.log("completed")
         resultBtn.disabled=false;
         resultBtn.style.display="block";
         submitBtn.style.display="none";
@@ -388,20 +351,18 @@ function getBooleanAnswer(){
 
 
 function printScore(){
-    if(score > questionsArr.length * 0.75){
+    if (score > questionsArr.length * 0.75) {
         scoreText.style.color= "green"
-        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length+4}\n Mycket Väl Godkänt!`
+        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\n Mycket Väl Godkänt!`
     } else if (score > questionsArr.length * 0.5){
         scoreText.style.color= "orange"
-        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length+4}\n Godkänt`
+        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\n Godkänt`
     } else if(score < questionsArr.length * 0.5){
         scoreText.style.color= "red"
-        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length+4}\nUnderkänt`
+        scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\nUnderkänt`
     }
 
 }
-
-
 
 function uncheckAll(){
     let allButtons = document.querySelectorAll("#boolean_alt1Btn, #boolean_alt2Btn, #single_alt1Btn, #single_alt2Btn,#single_alt3Btn,#single_alt4Btn,#checkbox_alt1Btn,#checkbox_alt2Btn,#checkbox_alt3Btn,#checkbox_alt4Btn")
@@ -410,26 +371,24 @@ function uncheckAll(){
     })
 }
 
-function removeQuestions(){
+function removeQuestions() {
     questionText.style.display="none";
     singleChoice.style.display="none"
-    
 }
 
 function darkModeToggle(){
-    body.style.background="black";
-    header.style.background="grey";  
-    startBtn.style.color="black";
-    toggleModelbl.style.background="grey";
-    startBtn.style.background="grey"
-    screenQuestionText.style.color="grey"
+    this.modeToggle("black", "grey", "grey")
 }
 
 function lightModeToggle(){
-    body.style.background="white";
-    header.style.background="white";
-    toggleModelbl.style.background="white";
-    startBtn.style.background="white";
-    screenQuestionText.style.color="black"
+    this.modeToggle("white", "white", "black")
+}
 
+function modeToggle(bodyColor, headerColor, textColor) {
+    body.style.background = bodyColor;
+    startBtn.style.color = bodyColor;
+    header.style.background = headerColor;  
+    toggleModelbl.style.background = headerColor;
+    startBtn.style.background = headerColor
+    screenQuestionText.style.color = textColor
 }
