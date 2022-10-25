@@ -1,67 +1,5 @@
 
-let questionsArr = [
-    {
-        question: "1+1 equals 2?",
-        type: "boolean",
-        alternatives: ["True", "False"],
-        correctAnswer: ["True"],
-    },
-    {
-        question: "What is the name of Australia's capital city?",
-        type: "singleChoice",
-        alternatives: ["Brisbane", "Sydney", "Perth", "Canberra"],
-        correctAnswer: ["Canberra"],
-    },
-    {
-        question: "What is the smallest country in the world by area?",
-        type: "singleChoice",
-        alternatives: ["Vatican City", "Liechtenstein","Monaco","San Marino"],
-        correctAnswer: ["Vatican City"],
-    },
-    {
-        question: "Who was the first US president?",
-        type: "singleChoice",
-        alternatives: ["Thomas Jefferson","George Washington","Abraham Lincoln","Theodore Roosevelt"],
-        correctAnswer: ["George Washington"],
-    },
-    {
-        question: "Arizona is the biggest state in US by area?",
-        type: "boolean",
-        alternatives: ["True", "False"],
-        correctAnswer: ["False"],
-    },
-    {
-        question: "Which nations won the 2010 & 2014 football World Cup?",
-        type: "multiChoice",
-        alternatives: ["Brazil","Germany","France","Spain"],
-        correctAnswer: ["Germany","Spain"],
-    },
-    {
-        question: "Which countries have over 50 million population?",
-        type: "multiChoice",
-        alternatives: ["Italy","Thailand","Canada","Turkey"],
-        correctAnswer: ["Italy","Thailand","Turkey"],
-    },
-    {
-        question: "Which planets are next to Earth?",
-        type: "multiChoice",
-        alternatives: ["Mercury","Venus","Mars","Jupiter"],
-        correctAnswer: ["Venus","Mars"],
-    },
-    {
-        question: "Is the Black box in an airplane actually black?",
-        type: "boolean",
-        alternatives: ["True", "False"],
-        correctAnswer: ["False"],
-    },
-    {
-        question: "How many elements are there on the periodic table?",
-        type:"singleChoice",
-        alternatives:["118","181","108","188"],
-        correctAnswer: ["118"],
-    }
 
-]
 
 let currentQuestion = 0;
 let score = 0;
@@ -115,22 +53,77 @@ let checkbox_alt4lbl= document.querySelector("#checkbox_alt4lbl");
 let toggleMode = document.querySelector("#toggleMode")
 let toggleModelbl = document.querySelector("#toggleModelbl")
 
+let historyDiv = document.querySelector("#history")
 
 let body = document.querySelector("body");
 let header = document.querySelector(".header");
 
-toggleMode.addEventListener("click", () =>{
-    if(toggleMode.checked){
-       darkModeToggle();
-    } else {
-        lightModeToggle();
+let questionsArr = [
+    {
+        question: "Apple launched their first iPhone in 2010",
+        type: "boolean",
+        alternatives: ["True", "False"],
+        correctAnswer: ["False"],
+    },
+    {
+        question: "What is the name of Australia's capital city?",
+        type: "singleChoice",
+        alternatives: ["Brisbane", "Sydney", "Perth", "Canberra"],
+        correctAnswer: ["Canberra"],
+    },
+    {
+        question: "What is the smallest country in the world by area?",
+        type: "singleChoice",
+        alternatives: ["Vatican City", "Liechtenstein","Monaco","San Marino"],
+        correctAnswer: ["Vatican City"],
+    },
+    {
+        question: "Who was the first US president?",
+        type: "singleChoice",
+        alternatives: ["Thomas Jefferson","George Washington","Abraham Lincoln","Theodore Roosevelt"],
+        correctAnswer: ["George Washington"],
+    },
+    {
+        question: "Texas is the biggest state in US by area",
+        type: "boolean",
+        alternatives: ["True", "False"],
+        correctAnswer: ["False"],
+    },
+    {
+        question: "Which two nations won the 2010 & 2014 football World Cup?",
+        type: "multiChoice",
+        alternatives: ["Brazil","Germany","France","Spain"],
+        correctAnswer: ["Germany","Spain"],
+    },
+    {
+        question: "Which countries have over 50 million population?",
+        type: "multiChoice",
+        alternatives: ["Italy","Thailand","Canada","Turkey"],
+        correctAnswer: ["Italy","Thailand","Turkey"],
+    },
+    {
+        question: "Which planets are next to Earth?",
+        type: "multiChoice",
+        alternatives: ["Mercury","Venus","Mars","Jupiter"],
+        correctAnswer: ["Venus","Mars"],
+    },
+    {
+        question: "Is the Black box in an airplane actually black?",
+        type: "boolean",
+        alternatives: ["True", "False"],
+        correctAnswer: ["False"],
+    },
+    {
+        question: "How many elements are there on the periodic table?",
+        type:"singleChoice",
+        alternatives:["118","181","108","188"],
+        correctAnswer: ["118"],
     }
 
-})
+]
 
 resultBtn.style.display = "none";
 submitBtn.style.display="none"
-
 
 
 startBtn.addEventListener("click", () =>{
@@ -142,6 +135,20 @@ startBtn.addEventListener("click", () =>{
     submitBtn.style.display="block"
 
 })
+
+toggleMode.addEventListener("click", () =>{
+    
+    if(toggleMode.checked){
+        historyDiv.style.color="white"
+        darkModeToggle();
+    } else {
+        historyDiv.style.color="black"
+        lightModeToggle();
+    }
+
+     
+})
+
 
 submitBtn.addEventListener("click",()=>{
 
@@ -187,25 +194,24 @@ submitBtn.addEventListener("click",()=>{
 
    let correctAnswers = questionsArr[currentQuestion].correctAnswer;
    checkCorrectAnswer(text,correctAnswers)
-
-   console.log("Text: " + text, "correctAnswers: " + correctAnswers)
-   console.log(score)
 })
 
 resultBtn.addEventListener("click", ()=> {
+
+    resultBtn.style.display="none";
 
     scoreText.style.display="block";
     scoreText.style.display="center";
     removeQuestions();
     printScore();
-    console.log(history);
 
     historyUl.innerHTML="";
 
 
     historyArray.forEach(historyObject => {
         let li = document.createElement("li");
-        let question = questionsArr[historyObject.question]
+        li.className= "li_item";
+        let question = questionsArr[historyObject.question]    
         li.innerHTML = "Question " + (historyObject.question +1) + ": " + question.question +", Your answer: " + historyObject.answer + ", Correct answer: " + question.correctAnswer
         historyUl.appendChild(li);
     })
@@ -300,14 +306,7 @@ function checkCorrectAnswer(text, correctAnswers) {
         answer: text
     }
     historyArray.push(historyObject)
-    console.log(historyObject)
-    
-    console.log("text", text)
-    console.log("correctA", correctAnswers)
-    console.log("score" + score)
-   
-
-    
+     
     if(question.type === "multiChoice"){
         var multiChoiceScore = 0
         text.forEach(answer => {
@@ -373,11 +372,13 @@ function uncheckAll(){
 
 function removeQuestions() {
     questionText.style.display="none";
-    singleChoice.style.display="none"
+    singleChoice.style.display="none";
+    screenQuestionText.style.display="none";
+
 }
 
 function darkModeToggle(){
-    this.modeToggle("black", "grey", "grey")
+    this.modeToggle("#1F1B24", "#1F1B24", "white")
 }
 
 function lightModeToggle(){
@@ -386,9 +387,14 @@ function lightModeToggle(){
 
 function modeToggle(bodyColor, headerColor, textColor) {
     body.style.background = bodyColor;
+    body.style.transition = "1s";
     startBtn.style.color = bodyColor;
     header.style.background = headerColor;  
-    toggleModelbl.style.background = headerColor;
-    startBtn.style.background = headerColor
-    screenQuestionText.style.color = textColor
+    toggleModelbl.style.color = textColor;
+    screenQuestionText.style.color = textColor;
+    container.style.background = headerColor;
+    questionText.style.color=textColor;
+    booleanDiv.style.color=textColor;
+    singleChoice.style.color=textColor;
+    multipleChoice.style.color=textColor;
 }

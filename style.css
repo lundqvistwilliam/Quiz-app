@@ -37,6 +37,36 @@ h3{
    text-align: center;
 }
 
+#container {
+    border: solid 4px;
+    border-image-source: linear-gradient(to bottom right, #f78ae0, #6638f0);
+    border-image-slice: 4;
+    border-radius: 30px;
+    margin-top: 10px;
+}
+
+#startBtn {
+    background-image: linear-gradient(to right, #6638f0 , #f78ae0)
+}
+
+#startBtn {
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.8s;
+    background-size: 200% auto;
+    color: white;            
+    border-radius: 10px;
+    display: block;
+    border:1px solid #FFFFFF;
+}
+button:hover {
+    background-position: right center; /* change the direction of the change here*/
+    color: #fff;
+    text-decoration: none;
+}
+
 
 
 
