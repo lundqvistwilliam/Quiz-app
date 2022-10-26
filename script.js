@@ -1,8 +1,7 @@
 
 
 
-let currentQuestion = 0;
-let score = 0;
+
 
 
 let startBtn = document.querySelector("#startBtn");
@@ -20,35 +19,13 @@ let historyArray =[];
 let scoreText = document.querySelector("#scoreText");
 let screenQuestionText = document.querySelector("#screenQuestionText");
 
-let boolean_alt1Btn = document.querySelector("#boolean_alt1Btn");
-let boolean_alt2Btn = document.querySelector("#boolean_alt2Btn");
-
-let boolean_alt1lbl= document.querySelector("#boolean_alt1lbl");
-let boolean_alt2lbl= document.querySelector("#boolean_alt2lbl");
-
-
 let booleanDiv = document.querySelector("#booleanDiv");
 let singleChoice = document.querySelector("#singleChoice");
 let multipleChoice = document.querySelector("#multipleChoice");
 
-let single_alt1Btn = document.querySelector("#single_alt1Btn");
-let single_alt2Btn = document.querySelector("#single_alt2Btn");
-let single_alt3Btn = document.querySelector("#single_alt3Btn");
-let single_alt4Btn = document.querySelector("#single_alt4Btn");
-let single_alt1lbl= document.querySelector("#single_alt1lbl");
-let single_alt2lbl= document.querySelector("#single_alt2lbl");
-let single_alt3lbl= document.querySelector("#single_alt3lbl");
-let single_alt4lbl= document.querySelector("#single_alt4lbl");
-
-
-let checkbox_alt1Btn = document.querySelector("#checkbox_alt1Btn");
-let checkbox_alt2Btn = document.querySelector("#checkbox_alt2Btn");
-let checkbox_alt3Btn = document.querySelector("#checkbox_alt3Btn");
-let checkbox_alt4Btn = document.querySelector("#checkbox_alt4Btn");
-let checkbox_alt1lbl= document.querySelector("#checkbox_alt1lbl");
-let checkbox_alt2lbl= document.querySelector("#checkbox_alt2lbl");
-let checkbox_alt3lbl= document.querySelector("#checkbox_alt3lbl");
-let checkbox_alt4lbl= document.querySelector("#checkbox_alt4lbl");
+let booleanAltLabels = document.querySelectorAll("#boolean_alt1lbl, #boolean_alt2lbl")
+let singleAltLabels = document.querySelectorAll("#single_alt1lbl,#single_alt2lbl,#single_alt3lbl,#single_alt4lbl ")
+let checkboxAltLabels = document.querySelectorAll("#checkbox_alt1lbl,#checkbox_alt2lbl,#checkbox_alt3lbl,#checkbox_alt4lbl")
 
 let toggleMode = document.querySelector("#toggleMode")
 let toggleModelbl = document.querySelector("#toggleModelbl")
@@ -57,6 +34,12 @@ let historyDiv = document.querySelector("#history")
 
 let body = document.querySelector("body");
 let header = document.querySelector(".header");
+
+let currentQuestion = 0;
+let score = 0;
+
+resultBtn.style.display = "none";
+submitBtn.style.display="none"
 
 let questionsArr = [
     {
@@ -122,39 +105,27 @@ let questionsArr = [
 
 ]
 
-resultBtn.style.display = "none";
-submitBtn.style.display="none"
-
-
 startBtn.addEventListener("click", () =>{
-    setup()
+    setup();
     loadQuiz();
-    booleanBtns.style.display="block"
-    booleanBtns.style.display="center"
     startBtn.style.display="none";
-    submitBtn.style.display="block"
-
+    submitBtn.style.display="block";
 })
 
 toggleMode.addEventListener("click", () =>{
-    
     if(toggleMode.checked){
-        historyDiv.style.color="white"
+        historyDiv.style.color="white";
         darkModeToggle();
     } else {
-        historyDiv.style.color="black"
+        historyDiv.style.color="black";
         lightModeToggle();
     }
-
-     
 })
 
 
 submitBtn.addEventListener("click",()=>{
-
    let text
-
-   let question =questionsArr[currentQuestion];
+   let question = questionsArr[currentQuestion];
 
    switch(question.type){
     case "boolean":
@@ -162,55 +133,29 @@ submitBtn.addEventListener("click",()=>{
         break;
 
     case "singleChoice":
-        if(single_alt1Btn.checked){
-            text= single_alt1lbl.innerText
-           } else if(single_alt2Btn.checked){
-            text=single_alt2lbl.innerText
-           } else if(single_alt3Btn.checked){
-            text=single_alt3lbl.innerText
-           } else if(single_alt4Btn.checked) {
-            text=single_alt4lbl.innerText
-           }
-           break;
+        text=this.getSingleChoiceAnswer();
+        break;
+
     case "multiChoice":
-        text = []
-        if(checkbox_alt1Btn.checked){
-            text.push(checkbox_alt1lbl.innerText)
-        }
-        if(checkbox_alt2Btn.checked){
-            text.push(checkbox_alt2lbl.innerText)
-        }
-        if(checkbox_alt3Btn.checked){
-            text.push(checkbox_alt3lbl.innerText)
-        }
-        if(checkbox_alt4Btn.checked){
-            text.push(checkbox_alt4lbl.innerText)
-        }
+        text=this.getMultiChoiceAnswer();
         break;
 
     default: 
         break;
    }
-
    let correctAnswers = questionsArr[currentQuestion].correctAnswer;
-   checkCorrectAnswer(text,correctAnswers)
+   checkCorrectAnswer(text,correctAnswers);
 })
 
 resultBtn.addEventListener("click", ()=> {
-
     resultBtn.style.display="none";
-
     scoreText.style.display="block";
-    scoreText.style.display="center";
     removeQuestions();
     printScore();
 
     historyUl.innerHTML="";
-
-
     historyArray.forEach(historyObject => {
         let li = document.createElement("li");
-        li.className= "li_item";
         let question = questionsArr[historyObject.question]    
         li.innerHTML = "Question " + (historyObject.question +1) + ": " + question.question +", Your answer: " + historyObject.answer + ", Correct answer: " + question.correctAnswer
         historyUl.appendChild(li);
@@ -227,69 +172,28 @@ function setup() {
    })
 }
 
-
-
 function loadQuiz(){
-
     uncheckAll();
-    let question = questionsArr[currentQuestion]
+    let question = questionsArr[currentQuestion];
     questionText.innerText= question.question;
-
     submitBtn.disabled=true;
 
-    
-   switch(question.type){
+    switch(question.type){
     case "boolean":
-        boolean_alt1lbl.innerHTML = questionsArr[currentQuestion].alternatives[0];
-        boolean_alt2lbl.innerHTML = questionsArr[currentQuestion].alternatives[1];
-        boolean_alt1Btn.checked = false;
-        boolean_alt2Btn.checked = false;
-
-        booleanDiv.style.display="block"
-        booleanDiv.style.display="center"
-        singleChoice.style.display="none";
-        multipleChoice.style.display="none";
-
+        this.setQuestionAlternatives(questionsArr[currentQuestion].alternatives, booleanAltLabels);
+        this.displayQuestionAlternatives("block","none","none");
         break;
 
     case "singleChoice":
-        single_alt1lbl.innerHTML = questionsArr[currentQuestion].alternatives[0];
-        single_alt2lbl.innerHTML = questionsArr[currentQuestion].alternatives[1];
-        single_alt3lbl.innerHTML = questionsArr[currentQuestion].alternatives[2];
-        single_alt4lbl.innerHTML = questionsArr[currentQuestion].alternatives[3];
-
-        single_alt1Btn.checked = false;
-        single_alt2Btn.checked = false;
-        single_alt3Btn.checked = false;
-        single_alt4Btn.checked = false;
-
-
-      
-        singleChoice.style.display="block";
-        singleChoice.style.display="center";
-        booleanDiv.style.display="none";
-        multipleChoice.style.display="none"
-
+        this.setQuestionAlternatives(questionsArr[currentQuestion].alternatives, singleAltLabels);
+        this.displayQuestionAlternatives("none","block","none");
         break;
 
     case "multiChoice":
-        checkbox_alt1lbl.innerHTML = questionsArr[currentQuestion].alternatives[0];
-        checkbox_alt2lbl.innerHTML = questionsArr[currentQuestion].alternatives[1];
-        checkbox_alt3lbl.innerHTML = questionsArr[currentQuestion].alternatives[2];
-        checkbox_alt4lbl.innerHTML = questionsArr[currentQuestion].alternatives[3];
-
-        checkbox_alt1Btn.checked = false;
-        checkbox_alt2Btn.checked = false;
-        checkbox_alt3Btn.checked = false;
-        checkbox_alt4Btn.checked = false;
-
-
-        multipleChoice.style.display="block";
-        multipleChoice.style.display="center";
-        singleChoice.style.display="none"
-        booleanDiv.style.display="none";
-
+        this.setQuestionAlternatives(questionsArr[currentQuestion].alternatives, checkboxAltLabels);
+        this.displayQuestionAlternatives("none","none","block");
         break;
+
     default:
         console.log("Invalid question type: " + question.type)
         break;
@@ -297,8 +201,19 @@ function loadQuiz(){
     screenQuestionText.innerText = `Question: ${currentQuestion+1}/${questionsArr.length}`
 }
 
-function checkCorrectAnswer(text, correctAnswers) {
+function setQuestionAlternatives(alternatives,labels){
+    labels.forEach((label,i) => {
+        label.innerHTML = alternatives[i]
+    })
+}
 
+function displayQuestionAlternatives(booleanDisplay, singleChoiceDisplay, multipleChoiceDisplay){
+    booleanDiv.style.display = booleanDisplay;
+    singleChoice.style.display = singleChoiceDisplay;
+    multipleChoice.style.display = multipleChoiceDisplay;
+}
+
+function checkCorrectAnswer(text, correctAnswers) {
     let question = questionsArr[currentQuestion];
 
     let historyObject = {
@@ -306,25 +221,29 @@ function checkCorrectAnswer(text, correctAnswers) {
         answer: text
     }
     historyArray.push(historyObject)
-     
+    
     if(question.type === "multiChoice"){
-        var multiChoiceScore = 0
-        text.forEach(answer => {
-            if(correctAnswers.includes(answer)){
-                multiChoiceScore = 1
-            } else {
-                multiChoiceScore = 0;
+        let sortedCorrectAnswers = correctAnswers.sort();
+        let sortedAnswers = text.sort();
+
+        var allCorrectAnswers = true;
+        if(sortedAnswers.length !== sortedCorrectAnswers.length){
+            allCorrectAnswers=false;
+        } else {
+        for (let i=0; i < sortedCorrectAnswers.length; i++){
+            if(sortedCorrectAnswers[i] !== sortedAnswers[i]){
+                allCorrectAnswers = false;
             }
-        })
-        multiChoiceScore = Math.max(multiChoiceScore,0)
-        score += multiChoiceScore
-    } else {
-        if (correctAnswers.includes(text)) {
-            score++
         }
     }
+        
+    if(allCorrectAnswers){
+        score++
+    }
+    } else if(correctAnswers.includes(text)) {
+        score++
+    }
     
-   
     if(currentQuestion === questionsArr.length -1){
         resultBtn.disabled=false;
         resultBtn.style.display="block";
@@ -348,19 +267,42 @@ function getBooleanAnswer(){
 
 }
 
+function getSingleChoiceAnswer(){
+    let singleCoiceButtons = document.querySelectorAll("#single_alt1Btn,#single_alt2Btn,#single_alt3Btn,#single_alt4Btn")
+    let singleCoiceLabels = document.querySelectorAll("#single_alt1lbl,#single_alt2lbl,#single_alt3lbl,#single_alt4lbl")
+    var text
+    singleCoiceButtons.forEach((singleCoiceButtons, i) => {
+        if(singleCoiceButtons.checked){
+            text = singleCoiceLabels[i].innerText
+        }
+    })
+    return text
+}
+
+function getMultiChoiceAnswer(){
+    let multiChoiceButtons = document.querySelectorAll("#checkbox_alt1Btn,#checkbox_alt2Btn,#checkbox_alt3Btn,#checkbox_alt4Btn");
+    let multiChoiceLabels = document.querySelectorAll("#checkbox_alt1lbl,#checkbox_alt2lbl,#checkbox_alt3lbl,#checkbox_alt4lbl");
+    var text = []
+    multiChoiceButtons.forEach((multiChoiceButton, i) => {
+        if(multiChoiceButton.checked){
+            text.push(multiChoiceLabels[i].innerText)
+        }
+    })
+    return text
+}
+
 
 function printScore(){
     if (score > questionsArr.length * 0.75) {
         scoreText.style.color= "green"
         scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\n Mycket Väl Godkänt!`
-    } else if (score > questionsArr.length * 0.5){
+    } else if (score >= questionsArr.length * 0.5){
         scoreText.style.color= "orange"
         scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\n Godkänt`
     } else if(score < questionsArr.length * 0.5){
         scoreText.style.color= "red"
         scoreText.innerText =`Your score was:\n ${score}/${questionsArr.length}\nUnderkänt`
     }
-
 }
 
 function uncheckAll(){
@@ -374,7 +316,6 @@ function removeQuestions() {
     questionText.style.display="none";
     singleChoice.style.display="none";
     screenQuestionText.style.display="none";
-
 }
 
 function darkModeToggle(){
@@ -398,3 +339,4 @@ function modeToggle(bodyColor, headerColor, textColor) {
     singleChoice.style.color=textColor;
     multipleChoice.style.color=textColor;
 }
+

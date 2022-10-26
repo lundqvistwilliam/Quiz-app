@@ -23,7 +23,6 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px 2px;
     width: 600px;
-    /*height: 250px; */
     padding: 25px;
 }
 
@@ -62,7 +61,7 @@ h3{
     border:1px solid #FFFFFF;
 }
 button:hover {
-    background-position: right center; /* change the direction of the change here*/
+    background-position: right center; 
     color: #fff;
     text-decoration: none;
 }
